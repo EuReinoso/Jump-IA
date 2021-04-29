@@ -12,16 +12,19 @@ pygame.display.set_caption('Jump IA')
 ground_size = (WINDOW_SIZE[0], 100)
 ground = pygame.Rect(0, WINDOW_SIZE[1] - ground_size[1], ground_size[0], ground_size[1])
 
+network_sizes = [3, 1]
+
 individual_size = (50, 50)
 individual_rect = pygame.Rect(150, ground.y - individual_size[1], individual_size[0], individual_size[1])
-individual = Individual(individual_rect)
+individual = Individual(individual_rect, network_sizes)
 
 block_size = (50, 50)
 block_position = (WINDOW_SIZE[0], ground.y - block_size[1])
 blocks = []
 block_ticks = 0
 
-vel = 10
+vel = 5
+acelerate_ticks = 0
 
 def gen_blocks():
     global block_ticks
@@ -39,6 +42,20 @@ def update_blocks():
 
             if blocks[0].rect.x <= - 100:
                 blocks.pop(0)
+def acelerate():
+    global acelerate_ticks, vel
+    acelerate_ticks += 1
+    if acelerate_ticks >= 160:
+        acelerate_ticks = 0
+        vel += 3
+
+def get_block_distance():
+    if len(blocks) > 0:
+        return blocks[0].rect.x
+
+def get_block_type():
+    if len(blocks) > 0:
+        return blocks[0].type
 
 def draw():
     pygame.draw.rect(window, (200, 200, 200), ground)
@@ -64,6 +81,8 @@ while True:
 
     draw()
     gen_blocks()
+    acelerate()
+    individual.get_action([get_block_distance(), get_block_type(), vel])
     individual.gravity()
     pygame.display.update()
     time.tick(fps)
