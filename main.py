@@ -1,6 +1,8 @@
 import pygame, sys
 from individual import Individual
 from block import Block
+from population import Population
+import numpy as np
 
 pygame.init()
 
@@ -8,6 +10,9 @@ WINDOW_SIZE = (640, 480)
 
 window = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption('Jump IA')
+
+surface = pygame.Surface(WINDOW_SIZE)
+surface.set_alpha(100)
 
 ground_size = (WINDOW_SIZE[0], 100)
 ground = pygame.Rect(0, WINDOW_SIZE[1] - ground_size[1], ground_size[0], ground_size[1])
@@ -25,6 +30,10 @@ block_ticks = 0
 
 vel = 5
 acelerate_ticks = 0
+
+population_size = 5
+population = Population(population_size)
+population.init(individual_rect, network_sizes)
 
 def gen_blocks():
     global block_ticks
@@ -60,9 +69,7 @@ def get_block_type():
 def draw():
     pygame.draw.rect(window, (200, 200, 200), ground)
     update_blocks()
-    individual.draw(window)
-
-
+    population.draw(surface)
 
 time = pygame.time.Clock()
 fps = 60
@@ -70,6 +77,7 @@ fps = 60
 while True:
 
     window.fill((0, 0, 0))
+    surface.fill((0, 0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -82,7 +90,9 @@ while True:
     draw()
     gen_blocks()
     acelerate()
-    individual.get_action([get_block_distance(), get_block_type(), vel])
-    individual.gravity()
+    population.get_actions([get_block_distance(), get_block_type(), vel])
+    population.gravity()
+
+    window.blit(surface, (0,0))
     pygame.display.update()
     time.tick(fps)
