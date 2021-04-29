@@ -37,6 +37,9 @@ def update_blocks():
             blk.draw(window)
             blk.move(10)
 
+            if blocks[0].rect.x <= - 100:
+                blocks.pop(0)
+
 def draw():
     pygame.draw.rect(window, (200, 200, 200), ground)
     update_blocks()
