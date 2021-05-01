@@ -11,9 +11,6 @@ WINDOW_SIZE = (640, 480)
 window = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption('Jump IA')
 
-surface = pygame.Surface(WINDOW_SIZE)
-surface.set_alpha(100)
-
 ground_size = (WINDOW_SIZE[0], 100)
 ground = pygame.Rect(0, WINDOW_SIZE[1] - ground_size[1], ground_size[0], ground_size[1])
 
@@ -69,7 +66,7 @@ def get_block_type():
 def draw():
     pygame.draw.rect(window, (200, 200, 200), ground)
     update_blocks()
-    population.draw(surface)
+    population.draw(window)
 
 time = pygame.time.Clock()
 fps = 60
@@ -77,7 +74,6 @@ fps = 60
 while True:
 
     window.fill((0, 0, 0))
-    surface.fill((0, 0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -87,12 +83,11 @@ while True:
             if event.key == pygame.K_SPACE:
                 individual.jump()
 
-    draw()
     gen_blocks()
     acelerate()
     population.get_actions([get_block_distance(), get_block_type(), vel])
     population.gravity()
 
-    window.blit(surface, (0,0))
+    draw()
     pygame.display.update()
     time.tick(fps)
