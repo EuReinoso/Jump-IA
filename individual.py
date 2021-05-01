@@ -1,6 +1,6 @@
 import pygame
 from network import Network
-from random import choice
+from random import choice, randint
 
 pygame.init()
 
@@ -16,17 +16,20 @@ COLORS = [
 class Individual:
     def __init__(self, rect, network_sizes):
         self.rect = rect
+        self.rect = pygame.Rect(self.rect.x + randint(-30, 50), self.rect.y,
+                                 self.rect.width, self.rect.height)
         self.limit = rect.y
         self.network = Network(network_sizes)
 
         self.y_momentum = 0
         self.y_vel = 0.2
 
+        
         self.color = choice(COLORS)
         self.jump_force = 7
 
     def draw(self, window):
-        pygame.draw.rect(window, self.color, self.rect)
+        pygame.draw.rect(window, self.color, self.rect, border_radius= 15)
     
     def gravity(self):
         self.rect.y += self.y_momentum
