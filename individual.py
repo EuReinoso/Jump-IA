@@ -43,6 +43,7 @@ class Individual:
         if self.y_momentum == 0:
             self.y_momentum -= self.jump_force
     
+    
     def get_action(self, inputs):
         for i in inputs:
             if i == None:
@@ -52,3 +53,6 @@ class Individual:
 
         if output == 1:
             self.jump()
+    
+    def get_distance(self, obj_distance):
+        return obj_distance - self.rect.x
