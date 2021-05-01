@@ -19,6 +19,7 @@ class Individual:
         self.rect = pygame.Rect(self.rect.x + randint(-30, 50), self.rect.y,
                                  self.rect.width, self.rect.height)
         self.limit = rect.y
+        self.network_sizes = network_sizes
         self.network = Network(network_sizes)
 
         self.y_momentum = 0

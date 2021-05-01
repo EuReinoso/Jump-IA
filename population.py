@@ -1,4 +1,5 @@
 from individual import Individual
+from random import random
 
 class Population:
     def __init__(self, population_size):
@@ -27,4 +28,23 @@ class Population:
         for idv in self.individuals:
             if idv.collide(rect):
                 self.individuals.remove(idv)
+    
+    def crossover(self, rect, network_sizes):
+        idv1 = self.individuals[0]
+        idv2 = self.individuals[1]
+
+        while len(self.individuals) < self.population_size:
+            cut = round(random() * len(idv1.network.weights))
+
+            weights1 = idv1.network.weights[0:cut] + idv2.network.weights[cut::]
+            weights2 = idv2.network.weights[0:cut] + idv1.network.weights[cut::]
+
+            son1 = Individual(rect, network_sizes)
+            son1.network.weights = weights1
+
+            son2 = Individual(rect, network_sizes)
+            son2.network.weights = weights2
+
+            self.individuals.append(son1)
+            self.individuals.append(son2)
 

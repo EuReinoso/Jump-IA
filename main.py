@@ -91,6 +91,9 @@ while True:
     if len(blocks) > 0:
         population.collide(blocks[0].rect)
 
+    if len(population.individuals) == 2:
+        population.crossover(individual_rect, network_sizes)
+
     draw()
     pygame.display.update()
     time.tick(fps)
