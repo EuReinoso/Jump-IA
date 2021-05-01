@@ -44,7 +44,7 @@ def update_blocks():
     if len(blocks) > 0:
         for blk in blocks:
             blk.draw(window)
-            blk.move(10)
+            blk.move(vel)
 
             if blocks[0].rect.x <= - 100:
                 blocks.pop(0)
@@ -53,7 +53,7 @@ def acelerate():
     acelerate_ticks += 1
     if acelerate_ticks >= 160:
         acelerate_ticks = 0
-        vel += 3
+        vel += 0.5
 
 def get_block_distance():
     if len(blocks) > 0:
@@ -87,6 +87,9 @@ while True:
     acelerate()
     population.get_actions([get_block_distance(), get_block_type(), vel])
     population.gravity()
+
+    if len(blocks) > 0:
+        population.collide(blocks[0].rect)
 
     draw()
     pygame.display.update()

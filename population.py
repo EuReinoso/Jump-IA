@@ -15,9 +15,16 @@ class Population:
     
     def get_actions(self, inputs):
         for idv in self.individuals:
+            temp = idv.get_distance(inputs[0])
+            inputs[0] = temp
             idv.get_action(inputs)
     
     def gravity(self):
         for idv in self.individuals:
             idv.gravity()
+
+    def collide(self, rect):
+        for idv in self.individuals:
+            if idv.collide(rect):
+                self.individuals.remove(idv)
 

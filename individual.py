@@ -55,4 +55,9 @@ class Individual:
             self.jump()
     
     def get_distance(self, obj_distance):
-        return obj_distance - self.rect.x
+        if obj_distance != None:
+            return obj_distance - self.rect.x
+    
+    def collide(self, rect):
+        if self.rect.colliderect(rect):
+            return True
