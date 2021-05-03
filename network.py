@@ -1,4 +1,5 @@
 import numpy as np
+from random import random
 
 def sigmoid(z):
     z = np.array(z, dtype= np.float128)
@@ -21,4 +22,14 @@ class Network:
             #a = sigmoid(np.dot(w, a) + b)
             a = threshold(np.dot(w, a) + b)
         return a
+
+    def mutation(self):
+        for i in range(len(self.weights)):
+            for j in range(len(self.weights[i])):
+                for k in range(len(self.weights[i][j])):
+                    if  random() <= 0.05:
+                        print(self.weights[i][j])
+                        self.weights[i][j][k] = np.random.randn() 
+                        print(self.weights[i][j])
+
     
