@@ -24,10 +24,13 @@ class Network:
         return a
 
     def mutation(self):
+        if random() <= 0.05:
+            self.biases[0][0] = np.random.randn()
+            
         for i in range(len(self.weights)):
             for j in range(len(self.weights[i])):
                 for k in range(len(self.weights[i][j])):
-                    if  random() <= 0.02:
+                    if  random() <= 0.05:
                         self.weights[i][j][k] = np.random.randn() 
 
     
