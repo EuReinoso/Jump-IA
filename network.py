@@ -19,8 +19,8 @@ class Network:
 
     def feedforward(self, a):
         for b, w in zip(self.biases, self.weights):
-            #a = sigmoid(np.dot(w, a) + b)
-            a = threshold(np.dot(w, a) + b)
+            a = sigmoid(np.dot(w, a) + b)
+            #a = threshold(np.dot(w, a) + b)
         return a
 
     def mutation(self):

@@ -25,7 +25,6 @@ class Individual:
         self.y_momentum = 0
         self.y_vel = 0.2
 
-        
         self.color = choice(COLORS)
         self.jump_force = 7
 
@@ -49,10 +48,10 @@ class Individual:
         for i in inputs:
             if i == None:
                 return
-
+                
         output = self.network.feedforward(inputs)
 
-        if output == 1:
+        if output[-1][-1] >= 0.5:
             self.jump()
     
     def get_distance(self, obj_distance):

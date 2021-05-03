@@ -76,10 +76,18 @@ def restart():
     vel = vel_init
     blocks.clear()
 
+def turn_fps():
+    global fps
+    if fps == fps_normal:
+        fps = fps_fast
+    else:
+        fps = fps_normal
+
 
 time = pygame.time.Clock()
-fps = 1000
-
+fps_fast = 1000
+fps_normal = 60
+fps = fps_normal
 while True:
 
     window.fill((0, 0, 0))
@@ -90,12 +98,13 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                individual.jump()
+                turn_fps()
 
     gen_blocks()
     acelerate()
     population.get_actions([get_block_distance(), get_block_type(), vel])
     population.gravity()
+    population.score_increment(vel)
 
     if len(population.individuals) == 1:
         restart()

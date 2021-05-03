@@ -7,10 +7,12 @@ class Population:
         self.individuals = []
         self.score = 0
         self.best_score = 0
+        self.best_individual = None
 
     def init(self,rect, network_sizes):
         for i in range(self.population_size):
             self.individuals.append(Individual(rect, network_sizes))
+        self.best_individual = self.individuals[0] #temp
 
     def draw(self, window):
         for idv in self.individuals:
@@ -57,11 +59,13 @@ class Population:
             self.individuals.append(son2)
 
     def replication(self, rect, network_sizes):
-        idv = self.individuals[0]
+        idv = self.best_individual
 
         if self.score > self.best_score:
+            idv = self.individuals[0]
             self.best_score = self.score
-
+        
+        self.score = 0
         self.individuals.clear()
         while len(self.individuals) < self.population_size:
             

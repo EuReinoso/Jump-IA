@@ -9,7 +9,8 @@ class Block:
             pygame.Rect(position[0], position[1], size[0], size[1]),
             pygame.Rect(position[0], position[1], size[0] * 2, size[1]),
             pygame.Rect(position[0], position[1] - size[1], size[0], size[1] * 2),
-            pygame.Rect(position[0], position[1] - size[1], size[0] * 2, size[1] * 2)]
+            #pygame.Rect(position[0], position[1] - size[1], size[0] * 2, size[1] * 2)
+            ]
         
         self.count_types = len(self.rect_types)
 
