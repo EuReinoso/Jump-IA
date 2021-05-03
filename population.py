@@ -6,8 +6,12 @@ class Population:
         self.population_size = population_size
         self.individuals = []
         self.score = 0
+
+        self.count_generations = 1
+
         self.best_score = 0
         self.best_individual = None
+        self.last_individual = None
 
     def init(self,rect, network_sizes):
         for i in range(self.population_size):
@@ -30,8 +34,11 @@ class Population:
 
     def collide(self, rect):
         for idv in self.individuals:
-            if idv.collide(rect) and len(self.individuals) > 1:
+            if idv.collide(rect) and len(self.individuals) > 0:
                 self.individuals.remove(idv)
+
+                if len(self.individuals) == 1:
+                    self.last_individual = idv
     
     def score_increment(self, vel):
         self.score += vel
@@ -58,13 +65,14 @@ class Population:
             self.individuals.append(son1)
             self.individuals.append(son2)
 
-    def replication(self, rect, network_sizes):
-        idv = self.best_individual
-
+    def replication(self, rect, network_sizes):    
         if self.score > self.best_score:
-            idv = self.individuals[0]
+            idv = self.last_individual
             self.best_score = self.score
+        else:
+            idv = self.best_individual
         
+        self.count_generations += 1
         self.score = 0
         self.individuals.clear()
         while len(self.individuals) < self.population_size:
