@@ -26,7 +26,7 @@ class Population:
 
     def collide(self, rect):
         for idv in self.individuals:
-            if idv.collide(rect) and len(self.individuals) > 2:
+            if idv.collide(rect) and len(self.individuals) > 1:
                 self.individuals.remove(idv)
     
     def crossover(self, rect, network_sizes):
@@ -50,4 +50,16 @@ class Population:
 
             self.individuals.append(son1)
             self.individuals.append(son2)
+
+    def replication(self, rect, network_sizes):
+        idv = self.individuals[0]
+
+        self.individuals.clear()
+        while len(self.individuals) < self.population_size:
+            
+            son = Individual(rect, network_sizes)
+            son.network.weights = idv.network.weights
+            son.network.mutation()
+
+            self.individuals.append(son)
 

@@ -27,9 +27,7 @@ class Network:
         for i in range(len(self.weights)):
             for j in range(len(self.weights[i])):
                 for k in range(len(self.weights[i][j])):
-                    if  random() <= 0.05:
-                        print(self.weights[i][j])
+                    if  random() <= 0.02:
                         self.weights[i][j][k] = np.random.randn() 
-                        print(self.weights[i][j])
 
     

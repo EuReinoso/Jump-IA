@@ -29,7 +29,7 @@ vel_init = 5
 vel = vel_init
 acelerate_ticks = 0
 
-population_size = 5
+population_size = 30
 population = Population(population_size)
 population.init(individual_rect, network_sizes)
 
@@ -71,13 +71,14 @@ def draw():
 
 def restart():
     global vel, blocks
-    population.crossover(individual_rect, network_sizes)
+    #population.crossover(individual_rect, network_sizes)
+    population.replication(individual_rect, network_sizes)
     vel = vel_init
     blocks.clear()
 
 
 time = pygame.time.Clock()
-fps = 60
+fps = 1000
 
 while True:
 
@@ -96,12 +97,11 @@ while True:
     population.get_actions([get_block_distance(), get_block_type(), vel])
     population.gravity()
 
-    if len(population.individuals) == 2:
+    if len(population.individuals) == 1:
         restart()
 
     if len(blocks) > 0:
         population.collide(blocks[0].rect)
-
 
     draw()
     pygame.display.update()
