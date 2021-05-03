@@ -5,6 +5,10 @@ from population import Population
 import numpy as np
 
 pygame.init()
+pygame.font.init()
+
+font = pygame.font.get_default_font()
+font_info = pygame.font.SysFont(font, 30)
 
 WINDOW_SIZE = (640, 480)
 
@@ -32,6 +36,19 @@ acelerate_ticks = 0
 population_size = 30
 population = Population(population_size)
 population.init(individual_rect, network_sizes)
+
+def show_info():
+    txt_generation      = 'Generation: '    + str(population.count_generations)
+    txt_best_score      = 'Best Score: '    + str(int(population.best_score))
+    txt_score           = 'Score: '         + str(int(population.score))
+
+    render_generation   = font_info.render(txt_generation,  1, (200, 200, 200))
+    render_best_score   = font_info.render(txt_best_score,  1, (200, 200, 200))
+    render_score        = font_info.render(txt_score,       1, (200, 200, 200))
+
+    window.blit(render_generation,  (10, 10))
+    window.blit(render_best_score,  (10, 40))
+    window.blit(render_score,       (10, 70))
 
 def gen_blocks():
     global block_ticks
@@ -100,18 +117,20 @@ while True:
             if event.key == pygame.K_SPACE:
                 turn_fps()
 
+
     gen_blocks()
     acelerate()
     population.get_actions([get_block_distance(), get_block_type(), vel])
     population.gravity()
     population.score_increment(vel)
 
-    if len(population.individuals) == 1:
+    if len(population.individuals) < 1:
         restart()
 
     if len(blocks) > 0:
         population.collide(blocks[0].rect)
 
     draw()
+    show_info()
     pygame.display.update()
     time.tick(fps)
