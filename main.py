@@ -25,7 +25,8 @@ block_position = (WINDOW_SIZE[0], ground.y - block_size[1])
 blocks = []
 block_ticks = 0
 
-vel = 5
+vel_init = 5
+vel = vel_init
 acelerate_ticks = 0
 
 population_size = 5
@@ -68,6 +69,13 @@ def draw():
     update_blocks()
     population.draw(window)
 
+def restart():
+    global vel, blocks
+    population.crossover(individual_rect, network_sizes)
+    vel = vel_init
+    blocks.clear()
+
+
 time = pygame.time.Clock()
 fps = 60
 
@@ -88,11 +96,12 @@ while True:
     population.get_actions([get_block_distance(), get_block_type(), vel])
     population.gravity()
 
+    if len(population.individuals) == 2:
+        restart()
+
     if len(blocks) > 0:
         population.collide(blocks[0].rect)
 
-    if len(population.individuals) == 2:
-        population.crossover(individual_rect, network_sizes)
 
     draw()
     pygame.display.update()
