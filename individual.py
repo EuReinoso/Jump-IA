@@ -50,8 +50,7 @@ class Individual:
                 return
                 
         output = self.network.feedforward(inputs)
-
-        if output[-1][-1] >= 0.5:
+        if output[-1][-1] > 0:
             self.jump()
     
     def get_distance(self, obj_distance):
